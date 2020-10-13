@@ -1,0 +1,39 @@
+# Thumbnails
+._*
+
+# Files that might appear on external disk
+.Spotlight-V100
+.Trashes
+
+### IntelliJ ###
+*.iml
+*.ipr
+*.iws
+.idea/
+
+### Java ###
+*.class
+
+# Package Files #
+*.jar
+*.war
+*.ear
+
+### Maven ###
+target/
+
+.characteristics
+.classpath
+.project
+
+## java local versions
+.java-version
+
+*.versionsBackup
+**/resources/git.properties
+artifacts/
+
+
+## Our dependency tree output files
+deptree.txt
+*.bak

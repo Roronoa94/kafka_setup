@@ -1,0 +1,119 @@
+What is Apache Kafka ?
+
+Basically it is all about data. Getting large amount of data from one place to other rapidly, salably and reliably.
+So kafka is basically a messaging system used for data logistics.
+
+Now you may ask there are other messaging systems also, why  not use them. Basically kafka is for made for high
+throughput test cases where vast amount of data needs to be moved in a scalable and fault tolerant way, cause
+we don't want our messages to get lost in between.
+
+Why Apache Kafka ?
+
+To move data around cleanly, reliably, quickly, autonomously is a challenge for all the enterprise today.
+Every enterprise have loads of applications which produces data at lightning speed and these needs to be
+taken care of quickly. Of course there are several methods to make things work but each has its pros and cons.
+
+Traditional data movement tools and approaches :
+1. Database replication ----- (Database specific and tight coupling :()
+2. Log shipping
+3. Extract, Transform and Load (ETL) ----- (Costly, not scalable and big rampup time :()
+4. Messaging ----- (fault-tolerance and scalability is an issue :()
+5. Custom middleware magic ----- (Very complex, inconsistence, high maintenance :()
+
+Each has its pros and cons, lets focus on Messaging approach and how kafka addresses its shortcomings.
+
+Lets take example of a typical enterprise :
+High volumes of data everyday.
+High velocity, data produced at really high speed.
+High variations within produced data (Multiple RDBMS, NoSQL).
+
+So we need a top notch data handling ability which can handle :
+
+1. High throughput
+2. Horizontally scalable
+3. Reliable and durable (In case of failure we don't want to loose out precious data)
+4. Loosely coupled Producers/Consumers but engage in common data exchanges (no app affect any other app)
+5. Flexible publish-subscribe semantics
+
+What role kafka plays with respect to different data producers and consumers and how it addressed shortcomings
+of traditional data movement tools ?
+
+As a central broker of data kafka enables disparate applications and data stores to engage with one another
+in a loosely  coupled fashion by conveying data through messaging topics which kafka manages at scale and reliably
+
+Explain Kafka architecture ?
+
+Kafka is a publish subscribe messaging system. And in a  pub/sub system there are publishers of messages and
+subscribers to those published messages.
+
+A publisher creates some data and sends it to a specific location where subscribers/consumers can retrieve the
+published messages and process it
+
+Producers/Publishers are nothing but an application we write, which uses kafka's publishing APIs.
+Similarly Consumers/Subscribers are application we write, which uses kafka's subscribing APIs.
+
+I mentioned that publisher sends messages to specific location, in kafka these location is referred to
+as a topic which is nothing but a collection or grouping of messages.
+Topics have a specific name and as long as producers/publishers know a topic name and have permission to send
+to it messages can be  send to that specific location. The same logic goes for consumers. Consumers retrieves
+messages based on the topic it is interested in.
+
+The messages and the topics need to be kept somewhere. The place where kafka keeps and maintains their topic
+is called broker. The kafka broker is a software process (also called executable) that runs on a machine. The
+broker has access to resources on the machine, such as the file system, which it uses to store messages which it
+categorizes as  topics. Like any other executable we can run more than one instances on a machine, but each must
+unique settings so that they don't conflict with one another
+
+How kafka broker handles messages in their topics is what gives kafka its high throughput capability. Achieving
+high throughput is largely a function of how well a system can distribute its load and efficiently process it
+on multiple nodes in parallels
+With apache kafka we can scale out the number of brokers as much as needed to acheive the levels of throughput
+required, without affecting consumer/producer apps. (Fun fact linkedIn has over 1400 brokers processing over 2
+petabytes of data/week)
+
+Kafka clusters are a grouping of multiple kafka brokers. We can have single or multiple brokers on single or
+multiple machines.
+
+How kafka achieves amazing levels of scalability ?
+
+Let's focus on how kafka as a distributed system works. A distributed system has a collection  of resources that
+are instructed to achieve a specific goal or function. It consists of multiple workers or nodes. The system of
+nodes require coordination to ensure consistency and progress towards a common goal. Coordination is very important
+as it makes sure no redundant work is being done and avoids duplication of effort. These nodes communicate through
+messages. These worker nodes in kafka are called kafka brokers.
+Like other distributed systems kafka also has different roles and responsibilities and a hierarchy that starts with
+a controller or supervisor. The worker node which is around the longest is generally the controller node, controller
+nodes then keep track of
+1. availability and health of worker nodes.
+2. task redundancy (if a worker  becomes unavailable the work is not lost and is reassigned to other worker node)
+It assigns leaders and peers (redundancy factor) for more reliable work.
+
+Apache Zookeeper
+
+Centralized service for maintaining metadata about the cluster of distributed nodes :
+1. Configuration information
+2. Health status
+3. Group membership
+
+Zookeeper itself is a distributed system consisting of multiple node working in sync
+
+Apache Kafka distributed architecture : At the very heart of kafka we have a cluster which is nothing but a
+collection of multiple independent brokers. Closely associated with a kafka cluster we have a zookeeper environment
+which provider brokers within a cluster, the metadata it needs to operate at scale and reliably. This metadata is
+always changing, so good communication between cluster member and zookeeper is required.
+Producers and consumer are applications which use these cluster to transmit messages between them reliably.
+
+Understanding Topics, Partitions, and Brokers
+Topics: Stores a time ordered sequence of messaged from producers and consumers reads them. This is like a mailbox.
+  Message content : Each message has a timestamp, reference number and payload
+  Message offset : Offset is a placeholder for last read message position. These are maintained by kafka consumers.
+  It corresponds to the message identifier (reference number)
+  Message Retention Policy : kafka retains all published messages regardless of consumption and it is configurable.
+  Default is 7 days or 168 hours.
+
+Demo :
+
+Simple kafka cluster setup
+Creating a topic
+Producing some messages to the topic
+Consuming same messages from the topic
